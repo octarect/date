@@ -7,6 +7,7 @@ use getopts::Options;
 
 #[derive(Debug)]
 struct Args {
+  datefmt: Vec<String>,
   utc: bool,
 }
 
@@ -32,16 +33,23 @@ fn parse_args() -> Args {
   }
 
   Args {
+    datefmt: matches.free.clone(),
     utc: matches.opt_present("u"),
   }
 }
 
 fn main() {
   let args = parse_args();
+  let datefmt = if args.datefmt.is_empty() {
+    "%a %b %e %T %Z %Y".to_string()
+  } else {
+    args.datefmt[0].clone()
+  };
+
 
   if args.utc {
-    println!("{}", UTC::now().format("%a %b %e %T %Z %Y").to_string());
+    println!("{}", UTC::now().format(&datefmt[0..]).to_string());
   } else {
-    println!("{}", Local::now().format("%a %b %e %T %Z %Y").to_string());
+    println!("{}", Local::now().format(&datefmt[0..]).to_string());
   }
 }
