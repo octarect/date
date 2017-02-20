@@ -8,7 +8,7 @@ Reimplementation of the GNU date by Rust (for my studying).
 
 ```shell
 $ date
-Fri Feb 17 12:04:40 JST 2017
+Mon Feb 20 18:06:40 +09:00 2017
 ```
 
 Available options;
