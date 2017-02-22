@@ -8,6 +8,7 @@ use getopts::Options;
 #[derive(Debug)]
 struct Args {
   datefmt: Vec<String>,
+  datestr: Option<String>,
   utc: bool,
 }
 
@@ -22,6 +23,7 @@ fn parse_args() -> Args {
   let program = args[0].clone();
 
   let mut opts = Options::new();
+  opts.optopt("d", "date", "display time described by STRING, not 'now'", "STRING");
   opts.optflag("u", "utc", "print or set Coordinated Universal Time (UTC)");
   opts.optflag("h", "help", "print this message");
 
@@ -34,6 +36,7 @@ fn parse_args() -> Args {
 
   Args {
     datefmt: matches.free.clone(),
+    datestr: matches.opt_str("d"),
     utc: matches.opt_present("u"),
   }
 }
@@ -45,7 +48,6 @@ fn main() {
   } else {
     args.datefmt[0].clone()
   };
-
 
   if args.utc {
     println!("{}", UTC::now().format(&datefmt[0..]).to_string());
